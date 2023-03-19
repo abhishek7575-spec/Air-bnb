@@ -1,0 +1,120 @@
+// handle request or response through express 
+
+const fs = require('fs');
+const path = require('path');
+const express = require('express')
+
+
+// create express application using express()
+
+// hamne edhr reference store rakha hai app me so ham baar baar express() na likhna pade
+const app = express()
+
+// ab express ka use krenge app ka use krke 
+// isme do cheeze hai response aur request 
+// ham response set krenge 200 pr using status
+// ab ham ek respnose text bhi bhejeng in json toh uske liye ek js object bnaya aur usse json me convert kiya  
+app.use((request,response) => {
+    /// response bheja in json
+    // response.status(200).json({message: 'IT WORKS'})
+    
+     // some operations on request 
+    // console.log("server started")
+    // console.log(request.method)
+    // console.log(request.url)
+
+    // responses
+
+    //normal way 
+    // response.setHeader()
+
+    // agr status ke sath bhejna ho plain text
+    // response.status(404).setHeader('Content-Type', 'text/plain')
+    // response.write("hello MR. ABHISHEK")
+    // response.write("kya haal hai ")
+    // response.end()
+
+    // agr html bhejna hoga 
+    // response.status(200).setHeader('Content-Type', 'text/html')
+    // response.write('<h1>hello MR. ABHISHEK</h1>')
+    // response.write('<h2>kya haal hai </h2>')
+    // response.end()
+
+    // agr html file bhejna ho
+
+    // response.status(404).setHeader('Content-Type', 'text/html')
+    // fs.readFile('./test.html',(err, data) => {
+    //     if (err) {
+    //         console.log(err)
+    //     }
+    //     else{
+    //         response.write(data)
+    //         response.end()
+    //     }
+    // })
+
+    /// switch cases dekhte hai html pages me 
+
+    // let path ='./'
+
+    // switch (request.url){
+    //     case '/':
+    //         path+='test.html'
+    //         break;
+    //     case '/about':
+    //         path+='about.html'
+    //         break;
+    //     default:
+    //         path+='404.html' 
+    //         break;     
+    // }
+    // response.status(200).setHeader('Content-Type', 'text/html')
+    // fs.readFile(path,(err, data) => {
+    //     if (err) {
+    //         console.log(err)
+    //     }
+    //     else{
+    //         response.write(data)
+    //         response.end()
+    //     }
+    // })
+
+    // status codes with html pages 
+    let path ='./'
+
+    switch (request.url){
+        case '/':
+            path+='test.html'
+            response.statusCode=200;
+            break;
+        case '/about':
+            path+='about.html'
+            response.statusCode=200;
+            break;
+        // redirect krna sikhaya 
+        case '/aboutme':
+            response.statusCode=301;
+            response.setHeader('Location','./about')
+            response.end(); 
+            break;   
+        default:
+            path+='404.html' 
+            response.statusCode=404;
+            break;     
+    }
+    response.setHeader('Content-Type', 'text/html')
+    fs.readFile(path,(err, data) => {
+        if (err) {
+            console.log(err)
+        }
+        else{
+            response.write(data)
+            response.end()
+        }
+    })
+
+
+})
+
+
+module.exports =app;

@@ -6,6 +6,7 @@ import tourData from '../assets/data/tours'
 import calculateAvgRating from '../utils/avgRating'
 import avatar from '../assets/images/avatar.jpg'
 import Booking from '../components/Booking/Booking'
+import Newsletter from '../shared/Newsletter'
 const TourDetails = () => {
     const {id} =useParams();
     const reviewMsgRef=useRef('')
@@ -127,11 +128,12 @@ const TourDetails = () => {
             
           </Col>
           <Col lg='4' >
-              <Booking tour={tour} avgRating={avgRating}/>     
+              <Booking tour={tour} avgRating={avgRating}  />     
           </Col>
         </Row>
       </Container>
-      </section>
+      </section> 
+      <Newsletter/>
     </>
   )
 }
